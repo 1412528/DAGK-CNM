@@ -1,0 +1,9 @@
+nav ul.right{
+    list-style: none;
+}
+  
+nav ul.right li{
+    display: inline;
+    margin-left: 10px;
+    color: white;
+}
