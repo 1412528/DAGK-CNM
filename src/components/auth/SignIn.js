@@ -1,13 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import { signIn } from '../../store/actions/authActions';
 import './public/auth.css';
-
-// function mapStateToProps(state) {
-//     return {
-
-//     };
-// }
 
 class SignIn extends Component {
     state = {
@@ -21,9 +15,10 @@ class SignIn extends Component {
       }
       handleSubmit = (e) => {
         e.preventDefault();
-        console.log(this.state);
+        this.props.signIn(this.state);
       }
       render() {
+        const { authError } = this.props;
         return (
           <div className="container">
             <div className="signin rounded">
@@ -38,6 +33,9 @@ class SignIn extends Component {
                   <input type="password" className="form-control" id="password" placeholder="Password" onChange={this.handleChange}></input>
                 </div>
                 <button type="submit" className="btn btn-primary">Login</button>
+                <div className="center red-text">
+                  { authError ? <p>{authError}</p> : null }
+                </div>
               </form>
             </div>
             <div className="signinGoogle">
@@ -51,7 +49,19 @@ class SignIn extends Component {
     }
 }
 
-export default SignIn;
-// export default connect(
-//     mapStateToProps,
-// )(SignIn);
+const mapStateToProps = (state) => {
+  return {
+    authError : state.auth.authError
+  };
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signIn : (creds) => dispatch(signIn(creds))
+  };
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(SignIn);
