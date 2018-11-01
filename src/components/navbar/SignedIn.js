@@ -7,7 +7,7 @@ const SignedIn = (props) =>{
     return (
         <ul className="right">
             <li><a onClick={props.signOut}>Logout</a></li>
-            <li><NavLink to="/" className="btn btn-info rounded-circle">N</NavLink></li>
+            <li><NavLink to="/" className="btn btn-info rounded-circle">{props.profile.initials}</NavLink></li>
         </ul>
     )
 }

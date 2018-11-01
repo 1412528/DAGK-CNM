@@ -13,5 +13,10 @@ var config = {
 };
 firebase.initializeApp(config);
 firebase.firestore().settings({ timestampsInSnapshots: true });
+const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+googleAuthProvider.setCustomParameters({
+    prompt: 'select_account'
+ });
 
-export default firebase 
+export { firebase, googleAuthProvider };
+// export default firebase 

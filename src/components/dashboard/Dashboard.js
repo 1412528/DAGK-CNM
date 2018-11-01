@@ -4,8 +4,10 @@ import './public/Dashboard.css';
 import { connect } from 'react-redux';
 import { Redirect } from "react-router-dom";
 
-class Dashboard extends Component {
+class Dashboard extends Component {    
     render(){
+        //console.log(this.props.authError);
+        
         const { auth } = this.props;
         if(!auth.uid)
             return <Redirect to="/signin"/>
@@ -95,7 +97,8 @@ class Dashboard extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        auth : state.firebase.auth
+        auth : state.firebase.auth,
+        authError : state.auth.authError
     }
 }
 

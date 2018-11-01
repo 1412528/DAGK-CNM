@@ -9,13 +9,20 @@ import {rootReducer} from './store/reducer/rootReducer';
 import { reduxFirestore, getFirestore } from "redux-firestore";
 import { reactReduxFirebase, getFirebase } from 'react-redux-firebase';
 import thunk from 'redux-thunk';
-import cfgFirebase from './config/cfgFirebase';
+import { firebase, googleAuthProvider } from './config/cfgFirebase';
+
+// react-redux-firebase config
+const rrfConfig = {
+    userProfile: 'users',
+    useFirestoreForProfile: true, // Firestore for Profile instead of Realtime DB
+    attachAuthIsReady : true
+}
 
 const store = createStore(rootReducer,
     compose(
-        applyMiddleware(thunk.withExtraArgument({getFirebase, getFirestore})),
-        reactReduxFirebase(cfgFirebase, {attachAuthIsReady : true}),
-        reduxFirestore(cfgFirebase)
+        applyMiddleware(thunk.withExtraArgument({getFirebase, getFirestore, googleAuthProvider})),
+        reactReduxFirebase(firebase, rrfConfig),
+        reduxFirestore(firebase)
     )
 );
 
