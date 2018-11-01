@@ -2,11 +2,12 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
 import { signOut } from "../../store/actions/authActions";
+import "./public/signed.css";
 
 const SignedIn = (props) =>{
     return (
         <ul className="right">
-            <li><a onClick={props.signOut}>Logout</a></li>
+            <li><a href="#" onClick={props.signOut}>Logout</a></li>
             <li><NavLink to="/" className="btn btn-info rounded-circle">{props.profile.initials}</NavLink></li>
         </ul>
     )

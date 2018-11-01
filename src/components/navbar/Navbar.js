@@ -12,7 +12,7 @@ const Navbar = (props) =>{
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container">
-                <Link to="/" className="navbar-brand">DAGK-1412528</Link>
+                <Link to="/" className="navbar-brand">CHAT APP</Link>
                 { link }
             </div>
         </nav>

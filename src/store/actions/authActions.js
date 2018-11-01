@@ -23,7 +23,7 @@ export const signInWithGoogle = () =>{
             
             return firestore.collection('users').doc(res.user.uid).set({
                 userName: res.user.displayName,
-                initials: res.user.displayName[0]
+                initials: res.user.displayName[0].toUpperCase()
             })
         }).then(() => {
             dispatch({type : 'LOGIN_SUCCESS' })
@@ -44,7 +44,7 @@ export const signUp = (newUser) => {
         ).then((res) => {            
             return firestore.collection('users').doc(res.user.uid).set({
                 userName: newUser.userName,
-                initials: newUser.userName[0]
+                initials: newUser.userName[0].toUpperCase()
             });
         }).then(() => {
             dispatch({ type: 'SIGNUP_SUCCESS' });

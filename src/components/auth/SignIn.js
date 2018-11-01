@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { signIn } from '../../store/actions/authActions';
+import { signIn, signInWithGoogle } from "../../store/actions/authActions";
 import './public/auth.css';
 import { Redirect } from "react-router-dom";
 
@@ -18,6 +18,9 @@ class SignIn extends Component {
         e.preventDefault();
         this.props.signIn(this.state);
       }
+      handleGoogleAccount = (e) => {
+        this.props.signInWithGoogle();
+      }
       render() {
         const { authError, auth } = this.props;
         if(auth.uid)
@@ -26,7 +29,7 @@ class SignIn extends Component {
           <div className="container">
             <div className="signin rounded">
               <form  onSubmit={this.handleSubmit}>
-                <h5 className="grey-text text-darken-3">Sign In</h5>
+                <h5 className="center">Sign In</h5>
                 <div className="form-group">
                   <label htmlFor="exampleInputEmail1">Email address</label>
                   <input type="email" className="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" onChange={this.handleChange}></input>
@@ -41,8 +44,8 @@ class SignIn extends Component {
                 </div>
               </form>
             </div>
-            <div className="signinGoogle">
-              <div className="signinGoogle">
+            <div className="signinGoogle" onClick={this.handleGoogleAccount}>
+              <div className="signinGoogle" >
                   <span>Sign in with Google</span>
               </div>
             </div>
@@ -61,7 +64,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    signIn : (creds) => dispatch(signIn(creds))
+    signIn : (creds) => dispatch(signIn(creds)),
+    signInWithGoogle : () => dispatch(signInWithGoogle())
   };
 }
 

@@ -32,7 +32,7 @@ class SignUp extends Component {
           <div className="container">
             <div className="signin rounded">
               <form  onSubmit={this.handleSubmit}>
-                <h5 className="grey-text text-darken-3">Sign Up</h5>
+                <h5 className="center">Sign Up</h5>
                 <div className="form-group">
                   <label htmlFor="exampleInputEmail1">User name</label>
                   <input type="text" className="form-control" id="userName" placeholder="Enter Username" onChange={this.handleChange}></input>
@@ -51,9 +51,9 @@ class SignUp extends Component {
                 </div>
               </form>
             </div>
-            <div className="signinGoogle">
+            <div className="signinGoogle" onClick={this.handleGoogleAccount}>
               <div className="signinGoogle">
-                  <span onClick={this.handleGoogleAccount}>Sign in with Google</span>
+                  <span >Sign in with Google</span>
               </div>
             </div>
           </div>
