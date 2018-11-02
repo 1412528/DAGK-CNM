@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import Sidebar from './Sidebar';
 import './public/Dashboard.css';
 import { connect } from 'react-redux';
 import { Redirect } from "react-router-dom";
+import Accounts from '../../containers/dashboard/Accounts';
 
 class Dashboard extends Component {    
     render(){
@@ -14,8 +14,8 @@ class Dashboard extends Component {
         return(
             <div className="container clearfix">
                 <div className="row">
-                    <Sidebar className="col"/>
-                    <div className="chat col">
+                    <Accounts />
+                    <div className="chat col-8">
                         <div className="chat-header clearfix">
                             <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/195612/chat_avatar_01_green.jpg" alt="avatar" />
                             

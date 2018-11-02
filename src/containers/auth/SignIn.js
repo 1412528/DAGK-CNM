@@ -7,16 +7,16 @@ const mapStateToProps = (state) => {
       authError : state.auth.authError,
       auth : state.firebase.auth
     };
-  }
+}
   
-  const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) => {
     return {
       signIn : (creds) => dispatch(signIn(creds)),
       signInWithGoogle : () => dispatch(signInWithGoogle())
     };
-  }
+}
   
-  export default connect(
+export default connect(
       mapStateToProps,
       mapDispatchToProps
-  )(SignInPage);
+)(SignInPage);

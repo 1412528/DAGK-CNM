@@ -1,5 +1,4 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 import "./public/signed.css";
 
@@ -7,7 +6,9 @@ const SignedInLink = (props) =>{
     return (
         <ul className="right">
             <li><a href="#" onClick={props.signOut}>Logout</a></li>
-            <li><NavLink to="/" className="btn btn-info rounded-circle">{props.profile.initials}</NavLink></li>
+            <li>
+                <div className="btn btn-info rounded-circle" style={{backgroundImage: `url(${props.profile.photoURL})`, backgroundPosition : "center", backgroundSize : "cover", width : "30px", height : "30px"}}></div>
+            </li>
         </ul>
     )
 }
