@@ -1,14 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import SignedIn from './SignedIn';
-import SignedOut from "./SignedOut";
+import SignedIn from '../../containers/navbar/SignedIn';
+import SignedOutLink from "./SignedOutLink";
+import PropTypes from 'prop-types';
 import './public/Navbar.css';
-import { connect } from 'react-redux';
 
-const Navbar = (props) =>{
-    
+const NavbarLink = (props) =>{
     const { auth, profile } = props;
-    const link = auth.uid ? <SignedIn profile={profile}/> : <SignedOut/>
+    const link = auth.uid ? <SignedIn profile={profile}/> : <SignedOutLink/>
     return (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
             <div className="container">
@@ -19,11 +18,9 @@ const Navbar = (props) =>{
     )
 }
 
-const mapStateToProps = (state) =>{
-    return {
-        auth : state.firebase.auth,
-        profile : state.firebase.profile
-    }
+NavbarLink.propTypes = {
+    auth : PropTypes.object,
+    profile : PropTypes.object
 }
 
-export default connect(mapStateToProps)(Navbar);
+export default NavbarLink;

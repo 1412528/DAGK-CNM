@@ -1,10 +1,9 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { connect } from "react-redux";
-import { signOut } from "../../store/actions/authActions";
+import PropTypes from "prop-types";
 import "./public/signed.css";
 
-const SignedIn = (props) =>{
+const SignedInLink = (props) =>{
     return (
         <ul className="right">
             <li><a href="#" onClick={props.signOut}>Logout</a></li>
@@ -13,10 +12,9 @@ const SignedIn = (props) =>{
     )
 }
 
-const mapDispatchToProps = (dispatch) =>{
-    return{
-        signOut : () => dispatch(signOut())
-    }
+SignedInLink.propTypes = {
+    signOut : PropTypes.func,
+    profile : PropTypes.object
 }
 
-export default connect(null, mapDispatchToProps)(SignedIn);
+export default SignedInLink;
