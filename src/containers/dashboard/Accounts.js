@@ -1,7 +1,8 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { firestoreConnect } from 'react-redux-firebase';
-import Sidebar from '../../components/dashboard/Sidebar';
+import SideBar from '../../components/dashboard/SideBar';
+import { fetchMessage } from '../../store/actions/chatRoomAction';
 
 const mapStateToProps = (state) =>{
     // console.log(state);
@@ -11,9 +12,15 @@ const mapStateToProps = (state) =>{
     }
 }
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        fetchMessage : (id) => dispatch(fetchMessage(id))
+    }
+}
+
 export default compose(
-    connect(mapStateToProps),
+    connect(mapStateToProps, mapDispatchToProps),
     firestoreConnect([
       { collection: 'users' }
     ])
-)(Sidebar)
+)(SideBar)

@@ -2,10 +2,12 @@ import { combineReducers} from 'redux'
 import { firestoreReducer } from 'redux-firestore';
 import { firebaseReducer } from "react-redux-firebase";
 import authReducer from './authReducer';
+import chatRoomReducer from './chatRoomReducer';
 
 // Add firebase to reducers
 export const rootReducer = combineReducers({
   auth : authReducer,
+  chatRoom : chatRoomReducer,
   firestore: firestoreReducer,
   firebase : firebaseReducer
 })

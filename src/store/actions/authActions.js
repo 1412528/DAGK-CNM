@@ -71,13 +71,16 @@ export const signOut = () =>{
     return (dispatch, getState, {getFirebase, getFirestore}) => {        
         const firebase = getFirebase();
         const firestore = getFirestore();
-        const uid = getState().firebase.auth.uid;
-
+        const uid = getState().firebase.auth.uid;        
+        
         firebase.auth().signOut().then(() => {
             firestore.collection('users').doc(uid).update({
                 lastLoginAt: new Date(),
                 isLogin : false
             });
+
+        }).then(() => {
+            dispatch({ type: 'FETCH_MESSAGE' });
         }).then(() => {
             dispatch({type : 'SIGNOUT_SUCCESS' })
         })
