@@ -3,16 +3,30 @@ import { connect } from 'react-redux';
 import { compose } from "redux";
 import { firestoreConnect } from 'react-redux-firebase';
 
-// const ChatRoom = (props) => {
 class ChatRoom extends Component {
-    // console.log(props);
+    constructor(props) {
+        super(props);
+        this.state = {
+            message : ""
+        }
+    }
+
+    handleChange = (e) => {
+        // console.log(e.target.value);
+        this.setState({
+            message: e.target.value
+        })
+    }
+
+    handleClick = (e) => {
+        e.target.previousSibling.value = this.state.message = "";
+
+    }
 
     render() {
         const { users, chatWith } = this.props;
-        
         return (
             <div className="chat col-8">
-                
                 { users && users.map(user => {
                     if(user.id == chatWith){
                         return (
@@ -89,10 +103,10 @@ class ChatRoom extends Component {
                 </div>
 
                 <div className="chat-message clearfix">
-                    <textarea name="message-to-send" id="message-to-send" placeholder="Type your message" rows="3"></textarea>
-                    <i className="fa fa-file-o"></i> &nbsp;&nbsp;&nbsp;
-                            <i className="fa fa-file-image-o"></i>
-                    <button>Send</button>
+                    <textarea name="message-to-send" id="message-to-send" placeholder="Type your message" rows="3" onChange={this.handleChange}></textarea>
+                    {/* <i className="fa fa-file-o"></i> &nbsp;&nbsp;&nbsp;
+                            <i className="fa fa-file-image-o"></i> */}
+                    <button onClick={this.handleClick}>Send</button>
                 </div>
             </div>
         )
@@ -105,6 +119,12 @@ const mapStateToProps = (state) => {
         chatRoom: state.firestore.ordered.chatRoom,
         auth: state.firebase.auth,
         users: state.firestore.ordered.users,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        sendMessage : () => dispatch(sendMessage())
     }
 }
 

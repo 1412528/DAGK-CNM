@@ -80,7 +80,7 @@ export const signOut = () =>{
             });
 
         }).then(() => {
-            dispatch({ type: 'FETCH_MESSAGE' });
+            dispatch({ type: 'FETCH_MESSAGE', chatRoom : {idChatUser : null, idChatRoom : null}});
         }).then(() => {
             dispatch({type : 'SIGNOUT_SUCCESS' })
         })

@@ -1,6 +1,6 @@
-
 const initState = {
-    chatWith : ''
+    chatWith : null,
+    idChatRoom : null
 }
 
 const chatRoomReducer = (state = initState, action) => {
@@ -9,8 +9,10 @@ const chatRoomReducer = (state = initState, action) => {
             console.log('fetched message');
             return {
                 ...state,
-                chatWith : action.idChatUser
+                chatWith : action.chatRoom.idChatUser,
+                idChatRoom : action.chatRoom.idChatRoom
             }
+        
         default :
             return state;
     }

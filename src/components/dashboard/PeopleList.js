@@ -5,12 +5,13 @@ import moment from 'moment';
     // console.log(users);
 class PeopleList extends Component {
     handleClick = (e) => {
-        // console.log(e.target.dataset.id);
-        this.props.fetchMessage(e.target.dataset.id);
+        // console.log(e.currentTarget);
+        this.props.fetchMessage(e.currentTarget.dataset.id, e.currentTarget.dataset.userid);
     }
     
     render() {
         const {users, uid} = this.props;
+        
         return (
             <ul className="list">
                 { users && users.map(user => {
@@ -23,7 +24,7 @@ class PeopleList extends Component {
                                             <i className="fa fa-circle offline"></i> offline {moment(user.lastLoginAt.toDate()).fromNow()}
                                         </div>
                         return (
-                            <li className="clearfix" key={user.id} onClick={this.handleClick} data-id={user.id}>
+                            <li className="clearfix" key={user.id} onClick={this.handleClick} data-id={user.id} data-userid={uid}>
                                 <div className="btn btn-info rounded-circle" style={{backgroundImage: `url(${user.photoURL})`, backgroundPosition : "center", backgroundSize : "cover", width : "50px", height : "50px", float : "left"}}/>
                                 <div className="about">
                                     <div className="name">{user.userName}</div>
