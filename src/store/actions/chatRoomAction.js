@@ -5,7 +5,7 @@ export const fetchMessage = (idChatUser, idUser) => {
 
         let idChatRoom = null;
         rooms.map(room => {
-            if(room.meta.user1 == idUser && room.meta.user2 == idChatUser || room.meta.user2 == idUser && room.meta.user1 == idChatUser){
+            if(room.meta[0].id == idUser && room.meta[1].id == idChatUser || room.meta[1].id == idUser && room.meta[0].id == idChatUser){
                 idChatRoom = room.id;
             }
         })
@@ -13,15 +13,26 @@ export const fetchMessage = (idChatUser, idUser) => {
             dispatch({ type: 'FETCH_MESSAGE', chatRoom : { idChatUser, idChatRoom } });
         }
         else{
+            // const userChat = getState().firestore.ordered.users.filter(user =>{
+            //     return idChatUser === user.id;
+            // });
+            
             firestore.collection('chatRoom').add({
                 messages : [],
-                meta : {
-                    user1 : idUser,
-                    user2 : idChatUser
-                }
+                meta : [
+                    {
+                        id: idUser,
+                        // name: getState().firebase.profile.userName,
+                        // photoURL : getState().firebase.profile.photoURL
+                    },
+                    {
+                        id: idChatUser,
+                        // name: userChat[0].userName,
+                        // photoURL : userChat[0].photoURL
+                    }
+                ],
+                lastChatAt : null
             }).then((result) => {
-                // console.log(result);
-                     
                 dispatch({ type: 'FETCH_MESSAGE', chatRoom : { idChatUser, idChatRoom : result.id } });
             })
         }
@@ -40,7 +51,8 @@ export const sendMessage = (message) => {
                 {
                     author: {
                         id: getState().firebase.auth.uid,
-                        name: getState().firebase.profile.userName
+                        name: getState().firebase.profile.userName,
+                        photoURL : getState().firebase.profile.photoURL
                     },
                     sendAt: new Date(),
                     text: message
@@ -50,7 +62,8 @@ export const sendMessage = (message) => {
             return messageList;            
         }).then((result) => {
             firestore.collection('chatRoom').doc(idRoom).update({
-                messages : result
+                messages: result,
+                lastChatAt: new Date()
             });
         }).then(() => {
             dispatch({type: 'SEND_MESSAGE_SUCCESS'})

@@ -5,10 +5,10 @@ import SideBar from '../../components/dashboard/SideBar';
 import { fetchMessage } from '../../store/actions/chatRoomAction';
 
 const mapStateToProps = (state) =>{
-    // console.log(state);
     return {
         users : state.firestore.ordered.users,
-        auth : state.firebase.auth
+        auth : state.firebase.auth,
+        chatRoom : state.firestore.ordered.chatRoom
     }
 }
 
@@ -21,6 +21,7 @@ const mapDispatchToProps = (dispatch) => {
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
     firestoreConnect([
-      { collection: 'users' }
+      { collection: 'users' },
+    //   { collection: 'chatRoom', orderBy : ['lastChatAt', 'desc'] }
     ])
 )(SideBar)

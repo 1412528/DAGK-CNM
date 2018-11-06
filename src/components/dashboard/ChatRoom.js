@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { compose } from "redux";
 import { firestoreConnect } from 'react-redux-firebase';
 import { sendMessage } from "../../store/actions/chatRoomAction";
+import moment from 'moment';
 
 class ChatRoom extends Component {
     constructor(props) {
@@ -55,7 +56,7 @@ class ChatRoom extends Component {
                                         return (
                                             <li className="clearfix" key={index}>
                                                 <div className="message-data align-right">
-                                                    <span className="message-data-time" >10:10 AM, Today</span> &nbsp; &nbsp;
+                                                    <span className="message-data-time" >{moment(message.sendAt.toDate()).calendar()}</span> &nbsp; &nbsp;
                                                 <span className="message-data-name" >{message.author.name}</span> <i className="fa fa-circle me"></i>
                                                 </div>
                                                 <div className="message other-message float-right">
@@ -69,7 +70,7 @@ class ChatRoom extends Component {
                                             <li key={index}>
                                                 <div className="message-data">
                                                     <span className="message-data-name"><i className="fa fa-circle online"></i> {message.author.name}</span>
-                                                    <span className="message-data-time">10:12 AM, Today</span>
+                                                    <span className="message-data-time">{moment(message.sendAt.toDate()).calendar()}</span>
                                                 </div>
                                                 <div className="message my-message">
                                                     {message.text}
@@ -80,9 +81,6 @@ class ChatRoom extends Component {
                                 })
                             }
                         })}
-                        {/* <i className="fa fa-circle online"></i>
-                    <i className="fa fa-circle online" style={{ color: "#AED2A6" }}></i>
-                    <i className="fa fa-circle online" style={{ color: "#DAE9DA" }}></i> */}
                     </ul>
                 </div>
 
@@ -120,7 +118,7 @@ const mapDispatchToProps = (dispatch) => {
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
     firestoreConnect([
-        { collection: 'chatRoom' },
+        { collection: 'chatRoom', orderBy : ['lastChatAt', 'desc'] },
         { collection: 'users' }
     ])
 )(ChatRoom);

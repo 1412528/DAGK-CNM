@@ -6,9 +6,7 @@ import Accounts from '../../containers/dashboard/Accounts';
 import ChatRoom from './ChatRoom';
 
 class Dashboard extends Component {    
-    render(){
-        //console.log(this.props.authError);
-        
+    render(){        
         const { auth } = this.props;
         if(!auth.uid)
             return <Redirect to="/signin"/>
