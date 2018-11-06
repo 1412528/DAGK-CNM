@@ -30,7 +30,7 @@ class PeopleList extends Component {
                                     <div className="name">{user.userName}</div>
                                     {isOnline}
                                 </div>
-                            </li> 
+                            </li>
                         )
                     }
                 })}

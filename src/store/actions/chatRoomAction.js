@@ -3,14 +3,14 @@ export const fetchMessage = (idChatUser, idUser) => {
         const firestore = getFirestore();
         const rooms = getState().firestore.ordered.chatRoom;
 
-        let idRoom = null;
+        let idChatRoom = null;
         rooms.map(room => {
             if(room.meta.user1 == idUser && room.meta.user2 == idChatUser || room.meta.user2 == idUser && room.meta.user1 == idChatUser){
-                idRoom = room;
+                idChatRoom = room.id;
             }
         })
-        if(idRoom){
-            dispatch({ type: 'FETCH_MESSAGE', chatRoom : {idChatUser, idChatRoom : idRoom}});
+        if(idChatRoom){
+            dispatch({ type: 'FETCH_MESSAGE', chatRoom : { idChatUser, idChatRoom } });
         }
         else{
             firestore.collection('chatRoom').add({
@@ -20,14 +20,42 @@ export const fetchMessage = (idChatUser, idUser) => {
                     user2 : idChatUser
                 }
             }).then((result) => {
-                dispatch({ type: 'FETCH_MESSAGE', chatRoom : {idChatUser, idChatRoom : result.id}});
+                // console.log(result);
+                     
+                dispatch({ type: 'FETCH_MESSAGE', chatRoom : { idChatUser, idChatRoom : result.id } });
             })
         }
     }
 }
 
-export const sendMessage = () => {
+export const sendMessage = (message) => {
     return (dispatch, getState, {getFirestore}) => {
+        const firestore = getFirestore();
+        const idRoom = getState().chatRoom.idChatRoom;
 
+        firestore.collection('chatRoom').doc(idRoom).get()
+        .then((result) => {
+            const messageList = result.data().messages
+            messageList.push(
+                {
+                    author: {
+                        id: getState().firebase.auth.uid,
+                        name: getState().firebase.profile.userName
+                    },
+                    sendAt: new Date(),
+                    text: message
+                }
+            );
+            // console.log(messageList);
+            return messageList;            
+        }).then((result) => {
+            firestore.collection('chatRoom').doc(idRoom).update({
+                messages : result
+            });
+        }).then(() => {
+            dispatch({type: 'SEND_MESSAGE_SUCCESS'})
+        }).catch((err) => {
+            dispatch({type: 'SEND_MESSAGE_ERROR' })
+        })
     }
 }
