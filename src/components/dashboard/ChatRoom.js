@@ -8,22 +8,20 @@ import moment from 'moment';
 class ChatRoom extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            message : ""
-        }
+        this.message = React.createRef();
+        this.chatHistory = React.createRef();
     }
 
-    handleChange = (e) => {
-        this.setState({
-            message: e.target.value
-        })
+    componentDidUpdate() {
+        if(this.chatHistory.current)
+            this.chatHistory.current.scrollTop =  this.chatHistory.current.scrollHeight;
     }
 
     handleClick = (e) => {
         if(this.props.idChatRoom !== null){
-            this.props.sendMessage(this.state.message);
+            this.props.sendMessage(this.message.current.value);
         }
-        e.target.previousSibling.value = this.state.message = "";
+        e.target.previousSibling.value = "";
     }
 
     render() {
@@ -47,7 +45,7 @@ class ChatRoom extends Component {
                     }
                 })}
 
-                <div className="chat-history">
+                <div className="chat-history" ref={this.chatHistory}>
                     <ul>
                         {chatRoom && chatRoom.map(room => {
                             if (idChatRoom === room.id) {
@@ -85,12 +83,12 @@ class ChatRoom extends Component {
                 </div>
 
                 <div className="chat-message clearfix">
-                    <textarea name="message-to-send" id="message-to-send" placeholder="Type your message" rows="3" onChange={this.handleChange}></textarea>
+                    <textarea name="message-to-send" id="message-to-send" placeholder="Type your message" rows="3" ref={this.message}></textarea>
                     <button onClick={this.handleClick}>Send</button>
                 </div>
             </div>
         return (
-            <div className="chat col-8">
+            <div className="chat col-9">
                 {htmlRoom}
             </div>
             

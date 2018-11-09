@@ -23,7 +23,7 @@ class PeopleList extends Component {
                     if(!chatUser.includes(user.id) && user.id !== uid)
                         chatUser.push(user.id);
                 })}
-                {chatUser && chatUser.map(id => {
+                {chatUser.length > 0 && chatUser.map(id => {
                     return users && users.map(user => {
                         if(user.id == id){
                             const isOnline = user.isLogin ?
@@ -42,7 +42,7 @@ class PeopleList extends Component {
                                     </div>
                                 </li>
                             )
-                        } 
+                        }
                     })
                 })}
             </ul>

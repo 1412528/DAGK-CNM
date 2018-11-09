@@ -66,7 +66,7 @@ export const sendMessage = (message) => {
                 lastChatAt: new Date()
             });
         }).then(() => {
-            dispatch({type: 'SEND_MESSAGE_SUCCESS'})
+            dispatch({type: 'SEND_MESSAGE_SUCCESS'});
         }).catch((err) => {
             dispatch({type: 'SEND_MESSAGE_ERROR' })
         })

@@ -11,7 +11,7 @@ class Dashboard extends Component {
         if(!auth.uid)
             return <Redirect to="/signin"/>
         return(
-            <div className="container clearfix">
+            <div className="container-fluid clearfix">
                 <div className="row">
                     <Accounts />
                     <ChatRoom />
