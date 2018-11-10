@@ -1,16 +1,12 @@
 import React from 'react';
 import PeopleList from './PeopleList';
+import Search from './Search';
 
-const SideBar = (props) => {
-  // console.log(props.chatRoom);
-  
+const SideBar = ({ fetchPeople, searchPeople, fetchMessage, users, auth, searchUsers}) => {
   return(
     <div className="people-list col-3" id="people-list">
-      <div className="search">
-        <input type="text" placeholder="search" />
-        <i className="fa fa-search"></i>
-      </div>
-      <PeopleList users={props.users} uid={props.auth.uid} chatRoom={props.chatRoom} fetchMessage = {props.fetchMessage}/>
+      <Search fetchPeople={fetchPeople} searchPeople={searchPeople}/>
+      <PeopleList users={users} uid={auth.uid} searchUsers={searchUsers} fetchMessage = {fetchMessage}/>
     </div>
   )
 }
