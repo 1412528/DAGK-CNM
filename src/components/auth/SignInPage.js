@@ -54,10 +54,10 @@ class SignInPage extends Component {
 }
 
 SignInPage.propTypes = {
-  auth: PropTypes.object,
+  auth: PropTypes.object.isRequired,
   authError: PropTypes.string,
-  signIn: PropTypes.func,
-  signInWithGoogle: PropTypes.func
+  signIn: PropTypes.func.isRequired,
+  signInWithGoogle: PropTypes.func.isRequired
 }
 
 export default SignInPage;

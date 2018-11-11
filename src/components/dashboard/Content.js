@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { compose } from "redux";
-import { firestoreConnect } from 'react-redux-firebase';
-import { sendMessage } from "../../store/actions/chatRoomAction";
 import moment from 'moment';
+import PropTypes from "prop-types";
 
-class ChatRoom extends Component {
+class Content extends Component {
     constructor(props) {
         super(props);
         this.message = React.createRef();
@@ -96,29 +93,12 @@ class ChatRoom extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        idChatRoom: state.chatRoom.idChatRoom,
-        chatWith: state.chatRoom.chatWith,
-        auth: state.firebase.auth,
-        profile: state.firebase.profile,
-        users: state.firestore.ordered.users,
-        chatRoom : state.firestore.ordered.chatRoom
-    }
+Content.propTypes = {
+    auth : PropTypes.object.isRequired,
+    idChatRoom : PropTypes.string,
+    chatWith : PropTypes.string,
+    sendMessage : PropTypes.func.isRequired,
+    users : PropTypes.array.isRequired
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        sendMessage : (message) => dispatch(sendMessage(message))
-    }
-}
-
-export default compose(
-    connect(mapStateToProps, mapDispatchToProps),
-    firestoreConnect([
-        { collection: 'chatRoom', orderBy : ['lastChatAt', 'desc'] },
-        { collection: 'users' }
-    ])
-)(ChatRoom);
-
-// export default ChatRoom;
+export default Content;

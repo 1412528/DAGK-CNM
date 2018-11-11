@@ -19,8 +19,8 @@ const NavbarLink = (props) =>{
 }
 
 NavbarLink.propTypes = {
-    auth : PropTypes.object,
-    profile : PropTypes.object
+    auth : PropTypes.object.isRequired,
+    profile : PropTypes.object.isRequired
 }
 
 export default NavbarLink;

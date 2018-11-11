@@ -1,5 +1,6 @@
 import React from 'react';
 import moment from 'moment';
+import PropTypes from "prop-types";
 
 const People = (props) => {
     const { user, uid, fetchMessage } = props;
@@ -21,6 +22,12 @@ const People = (props) => {
             </div>
         </li>
     )
+}
+
+People.propTypes = {
+    user : PropTypes.object.isRequired,
+    uid : PropTypes.string.isRequired,
+    fetchMessage : PropTypes.func.isRequired,
 }
 
 export default People;

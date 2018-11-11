@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Navbar from './containers/navbar/Navbar';
-import DashBoard from './components/dashboard/DashBoard';
-import SignIn from './containers/auth/SignIn';
-import SignUp from './containers/auth/SignUp';
+import Navbar from '../containers/navbar/Navbar';
+import DashBoard from '../containers/dashboard/DashBoard';
+import SignIn from '../containers/auth/SignIn';
+import SignUp from '../containers/auth/SignUp';
 
 class App extends Component {
   render() {

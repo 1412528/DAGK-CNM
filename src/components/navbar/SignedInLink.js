@@ -14,8 +14,8 @@ const SignedInLink = (props) =>{
 }
 
 SignedInLink.propTypes = {
-    signOut : PropTypes.func,
-    profile : PropTypes.object
+    signOut : PropTypes.func.isRequired,
+    profile : PropTypes.object.isRequired
 }
 
 export default SignedInLink;
