@@ -55,7 +55,7 @@ export const signUp = (newUser) => {
             return firestore.collection('users').doc(res.user.uid).set({
                 userName: newUser.userName,
                 initials: newUser.userName[0].toUpperCase(),
-                photoURL: "https://firebasestorage.googleapis.com/v0/b/dagk-gd2.appspot.com/o/user.png?alt=media&token=ce4023d4-f878-4846-aee3-62588d8fc569",
+                photoURL: "https://firebasestorage.googleapis.com/v0/b/dagk-80b7d.appspot.com/o/user.png?alt=media&token=93da39ef-799c-428a-9287-7711a34bcb7a",
                 lastLoginAt: new Date(),
                 isLogin : true
             });

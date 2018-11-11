@@ -121,6 +121,7 @@
   margin-bottom: 30px;
   width: 60%;
   position: relative;
+  overflow-wrap: break-word;
 }
 .chat .chat-history .message:after {
   bottom: 100%;
@@ -215,4 +216,12 @@
   content: " ";
   clear: both;
   height: 0;
+}
+
+.image-link-message {
+  width: 100%;
+  max-height: 300px;
+  margin: auto;
+  display: block;
+  margin-top: 10px;
 }

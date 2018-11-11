@@ -40,10 +40,13 @@ export const fetchMessage = (idChatUser, idUser) => {
 }
 
 export const sendMessage = (message) => {
-    return (dispatch, getState, {getFirestore}) => {
+    return (dispatch, getState, { getFirestore, }) => {
         const firestore = getFirestore();
         const idRoom = getState().chatRoom.idChatRoom;
-
+        let type = 0;
+        if(isDataURL(message) || checkURL(message)){
+            type = 1;
+        }    
         firestore.collection('chatRoom').doc(idRoom).get()
         .then((result) => {
             const messageList = result.data().messages
@@ -55,10 +58,10 @@ export const sendMessage = (message) => {
                         photoURL : getState().firebase.profile.photoURL
                     },
                     sendAt: new Date(),
-                    text: message
+                    text: message,
+                    type : type
                 }
             );
-            // console.log(messageList);
             return messageList;            
         }).then((result) => {
             firestore.collection('chatRoom').doc(idRoom).update({
@@ -139,4 +142,13 @@ function change_alias(alias) {
     str = str.replace(/ + /g," ");
     str = str.trim(); 
     return str;
+}
+
+function isDataURL(s) {
+    return !!s.match(isDataURL.regex);
+}
+isDataURL.regex = /^\s*data:([a-z]+\/[a-z]+(;[a-z\-]+\=[a-z\-]+)?)?(;base64)?,[a-z0-9\!\$\&\'\,\(\)\*\+\,\;\=\-\.\_\~\:\@\/\?\%\s]*\s*$/i;
+
+function checkURL(url) {
+    return(url.match(/\.(jpeg|jpg|gif|png)$/) != null);
 }

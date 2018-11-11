@@ -34,7 +34,7 @@ class Content extends Component {
                                 <div className="chat-about">
                                     <div className="chat-with">Chat with {user.userName}</div>
 
-                                    <div className="chat-num-messages">already 1902 messages</div>
+                                    {/* <div className="chat-num-messages">already 1902 messages</div> */}
                                 </div>
                                 <i className="fa fa-star"></i>
                             </div>
@@ -47,15 +47,27 @@ class Content extends Component {
                         {chatRoom && chatRoom.map(room => {
                             if (idChatRoom === room.id) {
                                 return room.messages.map((message, index) => {
-                                    if (auth.uid === message.author.id) {
+                                    let content;
+                                    if(message.type === 0){
+                                        content = message.text;
+                                    }
+                                    else{
+                                        content =   <div>
+                                                        <a href={message.text} target="_blank">{message.text}</a>
+                                                        <img className="image-link-message" src={message.text}></img>
+                                                    </div>
+                                    }
+                                    
+                                    if (auth.uid === message.author.id) {                                        
                                         return (
                                             <li className="clearfix" key={index}>
                                                 <div className="message-data align-right">
                                                     <span className="message-data-time" >{moment(message.sendAt.toDate()).calendar()}</span> &nbsp; &nbsp;
                                                 <span className="message-data-name" >{message.author.name}</span> <i className="fa fa-circle me"></i>
                                                 </div>
+                                                
                                                 <div className="message other-message float-right">
-                                                    {message.text}
+                                                    {content}
                                                 </div>
                                             </li>
                                         )
@@ -68,7 +80,7 @@ class Content extends Component {
                                                     <span className="message-data-time">{moment(message.sendAt.toDate()).calendar()}</span>
                                                 </div>
                                                 <div className="message my-message">
-                                                    {message.text}
+                                                    {content}
                                                 </div>
                                             </li>
                                         )
@@ -78,7 +90,7 @@ class Content extends Component {
                         })}
                     </ul>
                 </div>
-
+                
                 <div className="chat-message clearfix">
                     <textarea name="message-to-send" id="message-to-send" placeholder="Type your message" rows="3" ref={this.message}></textarea>
                     <button onClick={this.handleClick}>Send</button>
@@ -88,7 +100,6 @@ class Content extends Component {
             <div className="chat col-9">
                 {htmlRoom}
             </div>
-            
         )
     }
 }
