@@ -5,12 +5,12 @@ export const fetchMessage = (idChatUser, idUser) => {
 
         let idChatRoom = null;
         rooms.map(room => {
-            if(room.meta[0].id == idUser && room.meta[1].id == idChatUser || room.meta[1].id == idUser && room.meta[0].id == idChatUser){
+            if(room.meta[0].id === idUser && room.meta[1].id === idChatUser || room.meta[1].id === idUser && room.meta[0].id === idChatUser){
                 idChatRoom = room.id;
             }
         })
         if(idChatRoom){
-            dispatch({ type: 'FETCH_MESSAGE', chatRoom : { idChatUser, idChatRoom } });
+            dispatch({ type: 'FETCH_MESSAGE_SUCCESS', chatRoom : { idChatUser, idChatRoom } });
         }
         else{
             // const userChat = getState().firestore.ordered.users.filter(user =>{
@@ -32,15 +32,15 @@ export const fetchMessage = (idChatUser, idUser) => {
                     }
                 ],
                 lastChatAt : null
-            }).then((result) => {
-                dispatch({ type: 'FETCH_MESSAGE', chatRoom : { idChatUser, idChatRoom : result.id } });
+            }).then((result) => {                
+                dispatch({ type: 'FETCH_MESSAGE_SUCCESS', chatRoom : { idChatUser, idChatRoom : result.id } });
             })
         }
     }
 }
 
 export const sendMessage = (message) => {
-    return (dispatch, getState, { getFirestore, }) => {
+    return (dispatch, getState, { getFirestore }) => {
         const firestore = getFirestore();
         const idRoom = getState().chatRoom.idChatRoom;
         let type = 0;
@@ -127,6 +127,45 @@ export const searchPeople = (input) => {
     }
 }
 
+export const uploadFile = (file) => {
+    return (dispatch, getState, { getFirebase, getFirestore }) => {
+        const firebase = getFirebase();
+        const firestore = getFirestore();
+        let storageImgRef = firebase.storage().ref().child("images");
+        const idRoom = getState().chatRoom.idChatRoom;
+
+        var imgFileRef = storageImgRef.child(file.name);
+        imgFileRef.put(file)
+        .then((snap) => {
+            return snap.ref.getDownloadURL();
+        }).then(url => {
+            firestore.collection('chatRoom').doc(idRoom).get()
+            .then((result) => {
+                const messageList = result.data().messages
+                messageList.push(
+                    {
+                        author: {
+                            id: getState().firebase.auth.uid,
+                            name: getState().firebase.profile.userName,
+                            photoURL : getState().firebase.profile.photoURL
+                        },
+                        sendAt: new Date(),
+                        text: url,
+                        type : 1
+                    }
+                );
+                return messageList;            
+            }).then((result) => {
+                firestore.collection('chatRoom').doc(idRoom).update({
+                    messages: result,
+                    lastChatAt: new Date()
+                });
+            })
+        }).then(() => { 
+            dispatch({type: 'UPLOAD_FILE_SUCCESS'});
+        })
+    }
+}
 
 function change_alias(alias) {
     var str = alias;

@@ -2,7 +2,7 @@ import Content from "../../components/dashboard/Content";
 import { connect } from 'react-redux';
 import { compose } from "redux";
 import { firestoreConnect } from 'react-redux-firebase';
-import { sendMessage } from "../../store/actions/chatRoomAction";
+import { sendMessage, uploadFile } from "../../store/actions/chatRoomAction";
 
 const mapStateToProps = (state) => {
     return {
@@ -17,7 +17,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        sendMessage : (message) => dispatch(sendMessage(message))
+        sendMessage : (message) => dispatch(sendMessage(message)),
+        uploadFile : (file) => dispatch(uploadFile(file))
     }
 }
 

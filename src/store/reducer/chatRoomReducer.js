@@ -7,7 +7,7 @@ const initState = {
 
 const chatRoomReducer = (state = initState, action) => {
     switch(action.type){
-        case 'FETCH_MESSAGE':
+        case 'FETCH_MESSAGE_SUCCESS':
             console.log('Fetch message success');
             return {
                 ...state,
@@ -33,6 +33,9 @@ const chatRoomReducer = (state = initState, action) => {
                 ...state,
                 searchUsers : action.searchUsers
             }
+        case 'UPLOAD_FILE_SUCCESS':
+            console.log('Upload file success');            
+            return state;
         default :
             return state;
     }

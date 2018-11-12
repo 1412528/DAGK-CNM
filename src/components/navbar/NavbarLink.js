@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { isLoaded } from 'react-redux-firebase';
 import SignedIn from '../../containers/navbar/SignedIn';
 import SignedOutLink from "./SignedOutLink";
 import PropTypes from 'prop-types';

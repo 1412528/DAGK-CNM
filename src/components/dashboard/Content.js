@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import PropTypes from "prop-types";
+import UploadFile from './UploadFile';
 
 class Content extends Component {
     constructor(props) {
@@ -22,11 +23,11 @@ class Content extends Component {
     }
 
     render() {
-        const { users, chatWith, idChatRoom, chatRoom, auth } = this.props;
+        const { users, chatWith, idChatRoom, chatRoom, auth, uploadFile } = this.props;
         const htmlRoom = !chatWith ? <div></div> : 
             <div>
                 {users && users.map(user => {
-                    if (user.id == chatWith) {
+                    if (user.id === chatWith) {
                         return (
                             <div className="chat-header clearfix" key={user.id}>
                                 <div className="btn btn-info rounded-circle" style={{ backgroundImage: `url(${user.photoURL})`, backgroundPosition: "center", backgroundSize: "cover", width: "50px", height: "50px", float: "left" }} />
@@ -53,7 +54,8 @@ class Content extends Component {
                                     }
                                     else{
                                         content =   <div>
-                                                        <a href={message.text} target="_blank">{message.text}</a>
+                                                        {/* <a href={message.text} target="_blank" rel="noopener noreferrer">{message.text}</a> */}
+                                                        {message.text}
                                                         <img className="image-link-message" src={message.text}></img>
                                                     </div>
                                     }
@@ -94,6 +96,7 @@ class Content extends Component {
                 <div className="chat-message clearfix">
                     <textarea name="message-to-send" id="message-to-send" placeholder="Type your message" rows="3" ref={this.message}></textarea>
                     <button onClick={this.handleClick}>Send</button>
+                    <UploadFile uploadFile={uploadFile}/>
                 </div>
             </div>
         return (
