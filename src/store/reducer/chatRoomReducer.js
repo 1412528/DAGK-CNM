@@ -1,3 +1,11 @@
+import {
+    FETCH_MESSAGE_SUCCESS,
+    SEND_MESSAGE_SUCCESS,
+    FETCH_PEOPLE_SUCCESS,
+    SEARCH_PEOPLE_SUCCESS,
+    UPLOAD_FILE_SUCCESS
+} from '../actions/chatRoomAction';
+
 const initState = {
     chatWith : null,
     idChatRoom : null,
@@ -7,34 +15,26 @@ const initState = {
 
 const chatRoomReducer = (state = initState, action) => {
     switch(action.type){
-        case 'FETCH_MESSAGE_SUCCESS':
-            console.log('Fetch message success');
+        case FETCH_MESSAGE_SUCCESS:
             return {
                 ...state,
                 chatWith : action.chatRoom.idChatUser,
                 idChatRoom : action.chatRoom.idChatRoom
             }
-        case 'SEND_MESSAGE_SUCCESS':
-            console.log('Send message success');
+        case SEND_MESSAGE_SUCCESS:
             return state;
-        case 'SEND_MESSAGE_ERROR':
-            console.log('Send message fail');
-            return state;
-        case 'FETCH_PEOPLE_SUCCESS':
-            console.log('Fetch people success');
+        case FETCH_PEOPLE_SUCCESS:
             return {
                 ...state,
                 chatUsers : action.chatUsers,
                 searchUsers : action.chatUsers
             }
-        case 'SEARCH_PEOPLE_SUCCESS':
-            console.log('Search people success');
+        case SEARCH_PEOPLE_SUCCESS:
             return {
                 ...state,
                 searchUsers : action.searchUsers
             }
-        case 'UPLOAD_FILE_SUCCESS':
-            console.log('Upload file success');            
+        case UPLOAD_FILE_SUCCESS:            
             return state;
         default :
             return state;

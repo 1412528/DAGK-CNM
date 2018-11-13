@@ -6,8 +6,6 @@ import Dashboard from '../../components/dashboard/DashBoard';
 const mapStateToProps = (state) => {
     return {
         auth : state.firebase.auth,
-        // authError : state.auth.authError,
-        // users : state.firestore.ordered.users,
         chatRoom : state.firestore.ordered.chatRoom
     }
 }

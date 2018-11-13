@@ -3,7 +3,7 @@ import moment from 'moment';
 import PropTypes from "prop-types";
 import UploadFile from './UploadFile';
 
-class Content extends Component {
+class ChatRoom extends Component {
     constructor(props) {
         super(props);
         this.message = React.createRef();
@@ -22,6 +22,15 @@ class Content extends Component {
         e.target.previousSibling.value = "";
     }
 
+    handleKeyUp = (e) => {
+        if(e.keyCode === 13){
+            if(this.props.idChatRoom !== null){
+                this.props.sendMessage(this.message.current.value);
+            }
+            e.target.value = "";
+        }
+    }
+
     render() {
         const { users, chatWith, idChatRoom, chatRoom, auth, uploadFile } = this.props;
         const htmlRoom = !chatWith ? <div></div> : 
@@ -34,8 +43,6 @@ class Content extends Component {
 
                                 <div className="chat-about">
                                     <div className="chat-with">Chat with {user.userName}</div>
-
-                                    {/* <div className="chat-num-messages">already 1902 messages</div> */}
                                 </div>
                                 <i className="fa fa-star"></i>
                             </div>
@@ -94,7 +101,7 @@ class Content extends Component {
                 </div>
                 
                 <div className="chat-message clearfix">
-                    <textarea name="message-to-send" id="message-to-send" placeholder="Type your message" rows="3" ref={this.message}></textarea>
+                    <textarea name="message-to-send" id="message-to-send" placeholder="Type your message" rows="3" ref={this.message} onKeyUp={this.handleKeyUp}></textarea>
                     <button onClick={this.handleClick}>Send</button>
                     <UploadFile uploadFile={uploadFile}/>
                 </div>
@@ -107,7 +114,7 @@ class Content extends Component {
     }
 }
 
-Content.propTypes = {
+ChatRoom.propTypes = {
     auth : PropTypes.object.isRequired,
     idChatRoom : PropTypes.string,
     chatWith : PropTypes.string,
@@ -115,4 +122,4 @@ Content.propTypes = {
     users : PropTypes.array.isRequired
 }
 
-export default Content;
+export default ChatRoom;

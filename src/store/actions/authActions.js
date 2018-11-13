@@ -1,3 +1,14 @@
+/*
+ * action types
+ */
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_ERROR = 'LOGIN_ERROR';
+export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
+export const SIGNUP_ERROR = 'SIGNUP_ERROR';
+export const SIGNOUT_SUCCESS = 'SIGNOUT_SUCCESS';
+/*
+ * action creators
+ */
 export const signIn = (credential) =>{
     return (dispatch, getState, {getFirebase, getFirestore}) => {
         const firebase = getFirebase();
@@ -12,9 +23,9 @@ export const signIn = (credential) =>{
                 isLogin : true
             });
         }).then(() => {
-            dispatch({type : 'LOGIN_SUCCESS' })
+            dispatch({type : LOGIN_SUCCESS })
         }).catch((err) => {
-            dispatch({type : 'LOGIN_ERROR', err })
+            dispatch({type : LOGIN_ERROR, err })
         })
     }
 }
@@ -25,12 +36,10 @@ export const signInWithGoogle = () =>{
         const firestore = getFirestore();
 
         firebase.auth().signInWithPopup(googleAuthProvider)
-        .then(res => {
-            // console.log(res);
-            
+        .then(res => {            
             return firestore.collection('users').doc(res.user.uid).set({
                 userName: res.user.displayName,
-                initials: res.user.displayName[0].toUpperCase(),
+                // initials: res.user.displayName[0].toUpperCase(),
                 photoURL: res.user.photoURL,
                 lastLoginAt: new Date(),
                 isLogin : true
@@ -54,15 +63,15 @@ export const signUp = (newUser) => {
         ).then((res) => {            
             return firestore.collection('users').doc(res.user.uid).set({
                 userName: newUser.userName,
-                initials: newUser.userName[0].toUpperCase(),
+                // initials: newUser.userName[0].toUpperCase(),
                 photoURL: "https://firebasestorage.googleapis.com/v0/b/dagk-80b7d.appspot.com/o/user.png?alt=media&token=93da39ef-799c-428a-9287-7711a34bcb7a",
                 lastLoginAt: new Date(),
                 isLogin : true
             });
         }).then(() => {
-            dispatch({ type: 'SIGNUP_SUCCESS' });
+            dispatch({ type: SIGNUP_SUCCESS });
         }).catch((err) => {
-            dispatch({ type: 'SIGNUP_ERROR', err});
+            dispatch({ type: SIGNUP_ERROR, err});
         });
     }
 }
@@ -78,11 +87,8 @@ export const signOut = () =>{
                 lastLoginAt: new Date(),
                 isLogin : false
             });
-
         }).then(() => {
-            dispatch({ type: 'FETCH_MESSAGE', chatRoom : {idChatUser : null, idChatRoom : null}});
-        }).then(() => {
-            dispatch({type : 'SIGNOUT_SUCCESS' })
+            dispatch({ type : SIGNOUT_SUCCESS })
         })
     }
 }

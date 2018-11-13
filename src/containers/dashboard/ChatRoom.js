@@ -1,4 +1,4 @@
-import Content from "../../components/dashboard/Content";
+import ChatRoom from "../../components/dashboard/ChatRoom";
 import { connect } from 'react-redux';
 import { compose } from "redux";
 import { firestoreConnect } from 'react-redux-firebase';
@@ -9,7 +9,6 @@ const mapStateToProps = (state) => {
         idChatRoom: state.chatRoom.idChatRoom,
         chatWith: state.chatRoom.chatWith,
         auth: state.firebase.auth,
-        // profile: state.firebase.profile,
         users: state.firestore.ordered.users,
         chatRoom : state.firestore.ordered.chatRoom
     }
@@ -17,7 +16,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        sendMessage : (message) => dispatch(sendMessage(message)),
+        sendMessage : (input) => dispatch(sendMessage(input)),
         uploadFile : (file) => dispatch(uploadFile(file))
     }
 }
@@ -28,4 +27,4 @@ export default compose(
         { collection: 'chatRoom', orderBy : ['lastChatAt', 'desc'] },
         { collection: 'users' }
     ])
-)(Content);
+)(ChatRoom);

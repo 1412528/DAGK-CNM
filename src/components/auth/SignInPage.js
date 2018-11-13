@@ -4,22 +4,21 @@ import { Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 
 class SignInPage extends Component {
-  state = {
-    email: '',
-    password: ''
+  constructor(props) {
+    super(props);
+    this.email = React.createRef();
+    this.password = React.createRef();
   }
-  handleChange = (e) => {
-    this.setState({
-      [e.target.id]: e.target.value
-    })
-  }
+
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.signIn(this.state);
+    this.props.signIn({email: this.email.current.value, password: this.password.current.value });
   }
+
   handleGoogleAccount = (e) => {
     this.props.signInWithGoogle();
   }
+
   render() {
     const { authError, auth } = this.props;
     if (auth.uid)
@@ -31,11 +30,11 @@ class SignInPage extends Component {
             <h5 className="center">Sign In</h5>
             <div className="form-group">
               <label htmlFor="exampleInputEmail1">Email address</label>
-              <input type="email" className="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" onChange={this.handleChange}></input>
+              <input type="email" className="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" ref={this.email}></input>
             </div>
             <div className="form-group">
               <label htmlFor="exampleInputPassword1">Password</label>
-              <input type="password" className="form-control" id="password" placeholder="Password" onChange={this.handleChange}></input>
+              <input type="password" className="form-control" id="password" placeholder="Password" ref={this.password}></input>
             </div>
             <button type="submit" className="btn btn-primary">Login</button>
             <div className="center red-text">

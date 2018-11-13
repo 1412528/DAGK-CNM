@@ -1,7 +1,22 @@
+/*
+ * action types
+ */
+export const FETCH_MESSAGE_SUCCESS = 'FETCH_MESSAGE_SUCCESS';
+export const SEND_MESSAGE_SUCCESS = 'SEND_MESSAGE_SUCCESS';
+export const FETCH_PEOPLE_SUCCESS = 'FETCH_PEOPLE_SUCCESS';
+export const SEARCH_PEOPLE_SUCCESS = 'SEARCH_PEOPLE_SUCCESS';
+export const UPLOAD_FILE_SUCCESS = 'UPLOAD_FILE_SUCCESS';
+/*
+ * action creators
+ */
 export const fetchMessage = (idChatUser, idUser) => {
     return (dispatch, getState, {getFirestore}) => {
         const firestore = getFirestore();
         const rooms = getState().firestore.ordered.chatRoom;
+
+        if(idChatUser === null && idUser === null){
+            dispatch({ type: FETCH_MESSAGE_SUCCESS, chatRoom : {idChatUser, idChatRoom : null}});
+        }
 
         let idChatRoom = null;
         rooms.map(room => {
@@ -10,46 +25,33 @@ export const fetchMessage = (idChatUser, idUser) => {
             }
         })
         if(idChatRoom){
-            dispatch({ type: 'FETCH_MESSAGE_SUCCESS', chatRoom : { idChatUser, idChatRoom } });
+            dispatch({ type: FETCH_MESSAGE_SUCCESS, chatRoom : { idChatUser, idChatRoom } });
         }
-        else{
-            // const userChat = getState().firestore.ordered.users.filter(user =>{
-            //     return idChatUser === user.id;
-            // });
-            
+        else{            
             firestore.collection('chatRoom').add({
                 messages : [],
-                meta : [
-                    {
-                        id: idUser,
-                        // name: getState().firebase.profile.userName,
-                        // photoURL : getState().firebase.profile.photoURL
-                    },
-                    {
-                        id: idChatUser,
-                        // name: userChat[0].userName,
-                        // photoURL : userChat[0].photoURL
-                    }
-                ],
+                meta : [ { id: idUser }, { id: idChatUser } ],
                 lastChatAt : null
             }).then((result) => {                
-                dispatch({ type: 'FETCH_MESSAGE_SUCCESS', chatRoom : { idChatUser, idChatRoom : result.id } });
+                dispatch({ type: FETCH_MESSAGE_SUCCESS, chatRoom : { idChatUser, idChatRoom : result.id } });
             })
         }
     }
 }
 
-export const sendMessage = (message) => {
+export const sendMessage = (input) => {
     return (dispatch, getState, { getFirestore }) => {
         const firestore = getFirestore();
         const idRoom = getState().chatRoom.idChatRoom;
+        const message = input.replace(/\r\n|\r|\n/g, "");
         let type = 0;
+        
         if(isDataURL(message) || checkURL(message)){
             type = 1;
         }    
         firestore.collection('chatRoom').doc(idRoom).get()
         .then((result) => {
-            const messageList = result.data().messages
+            const messageList = result.data().messages;
             messageList.push(
                 {
                     author: {
@@ -69,10 +71,11 @@ export const sendMessage = (message) => {
                 lastChatAt: new Date()
             });
         }).then(() => {
-            dispatch({type: 'SEND_MESSAGE_SUCCESS'});
-        }).catch((err) => {
-            dispatch({type: 'SEND_MESSAGE_ERROR' })
+            dispatch({type: SEND_MESSAGE_SUCCESS});
         })
+        // .catch((err) => {
+        //     dispatch({type: 'SEND_MESSAGE_ERROR', err })
+        // })
     }
 }
 
@@ -99,7 +102,7 @@ export const fetchPeople = () => {
             })
             resolve(chatUsers);
         })
-        promise.then(chatUsers => dispatch({ type : 'FETCH_PEOPLE_SUCCESS', chatUsers}))
+        promise.then(chatUsers => dispatch({ type : FETCH_PEOPLE_SUCCESS, chatUsers}))
     }
 }
 
@@ -123,7 +126,7 @@ export const searchPeople = (input) => {
             }            
             resolve(searchUsers);
         })
-        promise.then((searchUsers) => dispatch({ type : 'SEARCH_PEOPLE_SUCCESS', searchUsers}))
+        promise.then((searchUsers) => dispatch({ type : SEARCH_PEOPLE_SUCCESS, searchUsers}))
     }
 }
 
@@ -162,7 +165,7 @@ export const uploadFile = (file) => {
                 });
             })
         }).then(() => { 
-            dispatch({type: 'UPLOAD_FILE_SUCCESS'});
+            dispatch({type: UPLOAD_FILE_SUCCESS});
         })
     }
 }

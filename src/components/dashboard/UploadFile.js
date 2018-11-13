@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class UploadFile extends Component {
     constructor(props) {
@@ -16,6 +17,10 @@ class UploadFile extends Component {
             <input type="file" ref={this.file} onChange={this.handleChange}/>
         )
     }
+}
+
+UploadFile.proptypes = {
+    uploadFile: PropTypes.func.isRequired
 }
 
 export default UploadFile;
